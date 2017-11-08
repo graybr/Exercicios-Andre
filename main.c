@@ -129,6 +129,40 @@ int solidez3 (int A[],int p,int r){
     return x;
 }
 
+void troco(int qtdM, int cnjtM[], int troco[], float valorTroco){
+    valorTroco *= 100; //Vamos tratar o valor como inteiro, por isso a necessidade de multiplicá-lo por 100
+    troco[qtdM]; //O vetor onde será armazenado o troco receberá como tamanho a quantidade de moedas pertencentes a um determinado sistema monetário
+    int i; //contador para o laço de repetição
+    for(i=0;i<qtdM;i++){
+        if(valorTroco >= cnjtM[i]){
+            troco[i] = valorTroco / cnjtM[i]; // o vetor que armazena o troco recebera a divisão do valor 
+                                                         // do troco pela moeda indicada pelo índice cnjtM[i], 
+                                                         // resultando na quantidade de moedas de tal valor.
+
+            valorTroco -= troco[i] * cnjtM[i]; // após isso será descontado a quantidade de moedas do cálculo acima do valor total do troco.
+                                                          // essa é a propriedade gulosa desse algoritmo.
+        }else{
+            troco[i] = 0;
+        }        
+    }
+}
+
+void imprimeTroco(int moedas[], int troco[], int tamanho){
+    int i;
+    for(i=0;i<tamanho;i++){
+        printf("Moeda de %d: %d \n", moedas[i], troco[i]);
+    }
+}
+
+void leVetorMoedas(int qtdM, int cnjtM[]){
+    int i;
+    printf("Digite o valor das moedas do maior para o menor:\n");
+    for(i=0;i<qtdM;i++){
+        scanf("%d", &cnjtM[i]);
+    }
+}
+
+
 int main(int argc, char** argv) {
     
     int c;
@@ -145,6 +179,23 @@ int main(int argc, char** argv) {
         printf("v[%d]: %d /n",a,v[a]);
         
     }
+
+     int qtdM;
+    float valorTroco;
+    
+    printf("Digite a quantidade de moedas: ");
+    scanf("%d",&qtdM);
+
+    int cnjtM[qtdM];
+    int mTroco[qtdM];
+
+    leVetorMoedas(qtdM, cnjtMo);
+
+    printf("Digite o valor do troco: ");
+    scanf("%f", &valorTroco);   
+    
+    troco(qtdM, cnjtM, mTroco, valorTroco);
+    imprimeTroco(cnjtM, mTroco, qtdM);
 
 
     return (EXIT_SUCCESS);
